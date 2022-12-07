@@ -1,3 +1,3 @@
 # Art-Gallery
-This is our first projeck.
+This is our first project.
 Good luck!
