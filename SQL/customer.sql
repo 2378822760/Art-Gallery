@@ -1,24 +1,24 @@
 /*
-	Ïû·ÑÕß£ºÏû·ÑÕßÄÜ¹»²éÑ¯ËùÓĞÒÕÊõ¼ÒµÄĞÅÏ¢£¬ËùÓĞÒÕÊõÆ·µÄĞÅÏ¢£¬ÄÜ¹»²éÑ¯Ä³ÖÖÀàĞÍ¡¢
-	·ç¸ñµÄËùÓĞÒÕÊõÆ·£¬ËùÓĞ»­ÀÈµÄĞÅÏ¢¼°Æä¶ÔÓ¦¿ªÕ¹µÄÕ¹ÀÀµÄĞÅÏ¢ºÍ×Ô¼º¹ºÂòÒÕÊõÆ·µÄÕËµ¥ĞÅÏ¢
+	æ¶ˆè´¹è€…ï¼šæ¶ˆè´¹è€…èƒ½å¤ŸæŸ¥è¯¢æ‰€æœ‰è‰ºæœ¯å®¶çš„ä¿¡æ¯ï¼Œæ‰€æœ‰è‰ºæœ¯å“çš„ä¿¡æ¯ï¼Œèƒ½å¤ŸæŸ¥è¯¢æŸç§ç±»å‹ã€
+	é£æ ¼çš„æ‰€æœ‰è‰ºæœ¯å“ï¼Œæ‰€æœ‰ç”»å»Šçš„ä¿¡æ¯åŠå…¶å¯¹åº”å¼€å±•çš„å±•è§ˆçš„ä¿¡æ¯å’Œè‡ªå·±è´­ä¹°è‰ºæœ¯å“çš„è´¦å•ä¿¡æ¯
 */
--- Ò»¡¢²éÑ¯
+-- ä¸€ã€æŸ¥è¯¢
 declare @galleryid varchar;
 declare @exhibitionid varchar;
 declare @artistid varchar;
 declare @cid varchar;
--- ²éÑ¯ËùÓĞ»­ÀÈ
+-- æŸ¥è¯¢æ‰€æœ‰ç”»å»Š
 select * from GALLERY;
--- ²éÑ¯ËùÓĞÕ¹ÀÀ
+-- æŸ¥è¯¢æ‰€æœ‰å±•è§ˆ
 select * from EXHIBITION;
 select * from EXHIBITION where GID = @galleryid;
--- ²éÑ¯ËùÓĞÒÕÊõ¼Ò
+-- æŸ¥è¯¢æ‰€æœ‰è‰ºæœ¯å®¶
 select * from ARTIST;
 select * from ARTIST where GID = @galleryid;
 select * from ARTIST where EID = @exhibitionid;
--- ²éÑ¯ËùÓĞ×÷Æ·
--- °´ÕÕ×÷Æ·ĞòºÅ¡¢Äê·İ¡¢¼Û¸ñ¡Ì
--- ÒÔ¼°ÈıÖÖµÄÅÅÁĞ×éºÏ²éÑ¯
+-- æŸ¥è¯¢æ‰€æœ‰ä½œå“
+-- æŒ‰ç…§ä½œå“åºå·ã€å¹´ä»½ã€ä»·æ ¼âˆš
+-- ä»¥åŠä¸‰ç§çš„æ’åˆ—ç»„åˆæŸ¥è¯¢
 select * from ARTWORK order by ARTISTID ASC;
 select * from ARTWORK order by ARTISTID DESC;
 select * from ARTWORK order by ARTTYPE ASC;
@@ -26,9 +26,9 @@ select * from ARTWORK order by ARTTYPE DESC;
 select * from ARTWORK order by ARTPRICE ASC;
 select * from ARTWORK order by ARTPRICE DESC;
 
--- ²éÑ¯Ä³¸ö»­ÀÈËùÓĞ×÷Æ·
--- °´ÕÕ×÷Æ·ĞòºÅ¡¢Äê·İ¡¢¼Û¸ñÉıĞò½µĞò²éÑ¯¡Ì
--- ÒÔ¼°ÈıÖÖµÄÅÅÁĞ×éºÏ²éÑ¯
+-- æŸ¥è¯¢æŸä¸ªç”»å»Šæ‰€æœ‰ä½œå“
+-- æŒ‰ç…§ä½œå“åºå·ã€å¹´ä»½ã€ä»·æ ¼å‡åºé™åºæŸ¥è¯¢âˆš
+-- ä»¥åŠä¸‰ç§çš„æ’åˆ—ç»„åˆæŸ¥è¯¢
 select * from ARTWORK where GID = @galleryid order by ARTISTID ASC;
 select * from ARTWORK where GID = @galleryid order by ARTISTID DESC;
 select * from ARTWORK where GID = @galleryid order by ARTTYPE ASC;
@@ -36,9 +36,9 @@ select * from ARTWORK where GID = @galleryid order by ARTTYPE DESC;
 select * from ARTWORK where GID = @galleryid order by ARTPRICE ASC;
 select * from ARTWORK where GID = @galleryid order by ARTPRICE DESC;
 
--- ²éÑ¯Ä³¸öÕ¹ÀÀËùÓĞ×÷Æ·
--- °´ÕÕ×÷Æ·ĞòºÅ¡¢Äê·İ¡¢¼Û¸ñÉıĞò½µĞò²éÑ¯¡Ì
--- ÒÔ¼°ÈıÖÖµÄÅÅÁĞ×éºÏ²éÑ¯
+-- æŸ¥è¯¢æŸä¸ªå±•è§ˆæ‰€æœ‰ä½œå“
+-- æŒ‰ç…§ä½œå“åºå·ã€å¹´ä»½ã€ä»·æ ¼å‡åºé™åºæŸ¥è¯¢âˆš
+-- ä»¥åŠä¸‰ç§çš„æ’åˆ—ç»„åˆæŸ¥è¯¢
 select * from ARTWORK where EID = @exhibitionid order by ARTISTID ASC;
 select * from ARTWORK where EID = @exhibitionid order by ARTISTID DESC;
 select * from ARTWORK where EID = @exhibitionid order by ARTTYPE ASC;
@@ -46,9 +46,9 @@ select * from ARTWORK where EID = @exhibitionid order by ARTTYPE DESC;
 select * from ARTWORK where EID = @exhibitionid order by ARTPRICE ASC;
 select * from ARTWORK where EID = @exhibitionid order by ARTPRICE DESC;
 
--- ²éÑ¯Ä³¸öÒÕÊõ¼ÒËùÓĞ×÷Æ·
--- °´ÕÕ×÷Æ·ĞòºÅ¡¢Äê·İ¡¢¼Û¸ñÉıĞò½µĞò²éÑ¯¡Ì
--- ÒÔ¼°ÈıÖÖµÄÅÅÁĞ×éºÏ²éÑ¯
+-- æŸ¥è¯¢æŸä¸ªè‰ºæœ¯å®¶æ‰€æœ‰ä½œå“
+-- æŒ‰ç…§ä½œå“åºå·ã€å¹´ä»½ã€ä»·æ ¼å‡åºé™åºæŸ¥è¯¢âˆš
+-- ä»¥åŠä¸‰ç§çš„æ’åˆ—ç»„åˆæŸ¥è¯¢
 select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTISTID ASC;
 select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTISTID DESC;
 select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTTYPE ASC;
@@ -56,17 +56,17 @@ select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where A
 select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTPRICE ASC;
 select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTPRICE DESC;
 
--- ²éÑ¯ÀúÊ·½»Ò×¼ÇÂ¼
+-- æŸ¥è¯¢å†å²äº¤æ˜“è®°å½•
 select * from TRADE where CID = cid order by TRADEDATE ASC;
 select * from TRADE where CID = cid order by TRADEDATE DESC;
 
-select * from TRADE where CID = cid and TRADESTATUS = '½»Ò×½¨Á¢' order by TRADEDATE ASC;
-select * from TRADE where CID = cid and TRADESTATUS = '½»Ò×½¨Á¢' order by TRADEDATE DESC;
-select * from TRADE where CID = cid and TRADESTATUS = 'ÔËÊäÖĞ' order by TRADEDATE ASC;
-select * from TRADE where CID = cid and TRADESTATUS = 'ÔËÊäÖĞ' order by TRADEDATE DESC;
-select * from TRADE where CID = cid and TRADESTATUS = 'Íê³É' order by TRADEDATE ASC;
-select * from TRADE where CID = cid and TRADESTATUS = 'Íê³É' order by TRADEDATE DESC;
-select * from TRADE where CID = cid and TRADESTATUS = 'È¡Ïû' order by TRADEDATE ASC;
-select * from TRADE where CID = cid and TRADESTATUS = 'È¡Ïû' order by TRADEDATE DESC;
+select * from TRADE where CID = cid and TRADESTATUS = 'äº¤æ˜“å»ºç«‹' order by TRADEDATE ASC;
+select * from TRADE where CID = cid and TRADESTATUS = 'äº¤æ˜“å»ºç«‹' order by TRADEDATE DESC;
+select * from TRADE where CID = cid and TRADESTATUS = 'è¿è¾“ä¸­' order by TRADEDATE ASC;
+select * from TRADE where CID = cid and TRADESTATUS = 'è¿è¾“ä¸­' order by TRADEDATE DESC;
+select * from TRADE where CID = cid and TRADESTATUS = 'å®Œæˆ' order by TRADEDATE ASC;
+select * from TRADE where CID = cid and TRADESTATUS = 'å®Œæˆ' order by TRADEDATE DESC;
+select * from TRADE where CID = cid and TRADESTATUS = 'å–æ¶ˆ' order by TRADEDATE ASC;
+select * from TRADE where CID = cid and TRADESTATUS = 'å–æ¶ˆ' order by TRADEDATE DESC;
 
--- Ïû·ÑÕßÎŞÉ¾³ıÈÎºÎÊı¾İµÄÈ¨ÏŞ
+-- æ¶ˆè´¹è€…æ— åˆ é™¤ä»»ä½•æ•°æ®çš„æƒé™
