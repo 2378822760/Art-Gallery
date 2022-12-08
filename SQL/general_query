@@ -1,0 +1,71 @@
+-- 通用查询查询
+declare @galleryid varchar(10);
+declare @exhibitionid varchar(10);
+declare @artistid varchar(10);
+declare @cid varchar(10);
+-- 查询所有画廊√
+select * from GALLERY;
+-- 查询所有展览√
+select * from EXHIBITION;
+-- 查询某个画廊开展的展览√
+select * from EXHIBITION where GID = @galleryid;
+-- 查询所有艺术家√
+select * from ARTIST;
+-- 查询某个画廊签约的所有艺术家√
+select * from ARTIST where GID = @galleryid;
+-- 查询某个展览相关的所有艺术家√
+select * from EXB_ARTIST where EID = @exhibitionid;
+
+-- 查询所有作品
+-- 按照作品序号、年份、价格√
+-- 以及三种的排列组合查询
+select * from ARTWORK order by ARTISTID ASC;
+select * from ARTWORK order by ARTISTID DESC;
+select * from ARTWORK order by ARTTYPE ASC;
+select * from ARTWORK order by ARTTYPE DESC;
+select * from ARTWORK order by ARTPRICE ASC;
+select * from ARTWORK order by ARTPRICE DESC;
+
+-- 查询某个画廊所有作品
+-- 按照作品序号、年份、价格升序降序查询√
+-- 以及三种的排列组合查询
+select * from ARTWORK where GID = @galleryid order by ARTISTID ASC;
+select * from ARTWORK where GID = @galleryid order by ARTISTID DESC;
+select * from ARTWORK where GID = @galleryid order by ARTTYPE ASC;
+select * from ARTWORK where GID = @galleryid order by ARTTYPE DESC;
+select * from ARTWORK where GID = @galleryid order by ARTPRICE ASC;
+select * from ARTWORK where GID = @galleryid order by ARTPRICE DESC;
+
+-- 查询某个展览所有作品
+-- 按照作品序号、年份、价格升序降序查询√
+-- 以及三种的排列组合查询
+select * from ARTWORK where EID = @exhibitionid order by ARTISTID ASC;
+select * from ARTWORK where EID = @exhibitionid order by ARTISTID DESC;
+select * from ARTWORK where EID = @exhibitionid order by ARTTYPE ASC;
+select * from ARTWORK where EID = @exhibitionid order by ARTTYPE DESC;
+select * from ARTWORK where EID = @exhibitionid order by ARTPRICE ASC;
+select * from ARTWORK where EID = @exhibitionid order by ARTPRICE DESC;
+
+-- 查询某个艺术家所有作品
+-- 按照作品序号、年份、价格升序降序查询√
+-- 以及三种的排列组合查询
+select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTISTID ASC;
+select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTISTID DESC;
+select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTTYPE ASC;
+select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTTYPE DESC;
+select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTPRICE ASC;
+select * from ARTWORK where ARTISTID in (select ARTISTID from EXB_ARTIST where ARTISTID = @artistid) order by ARTPRICE DESC;
+
+-- 查询某个类别所有作品
+declare @arttype varchar(10);
+select * from ARTWORK where ARTTYPE = @arttype order by ARTISTID ASC;
+select * from ARTWORK where ARTTYPE = @arttype order by ARTISTID DESC;
+select * from ARTWORK where ARTTYPE = @arttype order by ARTTYPE ASC;
+select * from ARTWORK where ARTTYPE = @arttype order by ARTTYPE DESC;
+select * from ARTWORK where ARTTYPE = @arttype order by ARTPRICE ASC;
+select * from ARTWORK where ARTTYPE = @arttype order by ARTPRICE DESC;
+
+-- 精确查找作品
+declare @arttitle varchar(10),@artid varchar(10);
+select * from ARTWORK where ARTTITLE = @arttitle;
+select * from ARTWORK where ARTID = @artid;
