@@ -1,38 +1,38 @@
--- »­ÀÈ¹ÜÀíÔ±
+-- ç”»å»Šç®¡ç†å‘˜
 
--- ĞŞ¸ÄÒÕÊõÆ·¼Û¸ñ
+-- ä¿®æ”¹è‰ºæœ¯å“ä»·æ ¼
 declare @newprice money,@artid varchar(10);
 update ARTWORK set ARTPRICE = @newprice where ARTID = @artid;
 go
 
--- ÓëÒÕÊõ¼ÒÇ©Ô¼
+-- ä¸è‰ºæœ¯å®¶ç­¾çº¦
 declare @artistid varchar(10),@gid varchar(10);
 update ARTIST set GID = @gid where ARTISTID = @artistid;
 go
 
--- ÓëÒÕÊõ¼Ò½âÔ¼
+-- ä¸è‰ºæœ¯å®¶è§£çº¦
 create proc breakContrack
 	@gid varchar(10),
 	@artistid varchar(10)
 	as
 	if exists(select * from EXB_ARTIST where ARTISTID = @artistid) begin
-		print '¸ÃÒÕÊõ¼Òµ±Ç°ÓĞ×÷Æ·ÕıÔÚÕ¹ÀÀ£¬²»ÄÜ½âÔ¼£¬Çë´ıÕ¹ÀÀ½áÊøºó½øĞĞ½âÔ¼!';
+		print 'è¯¥è‰ºæœ¯å®¶å½“å‰æœ‰ä½œå“æ­£åœ¨å±•è§ˆï¼Œä¸èƒ½è§£çº¦ï¼Œè¯·å¾…å±•è§ˆç»“æŸåè¿›è¡Œè§£çº¦!';
 	end
 	else begin
 		update ARTIST set GID = NULL where ARTISTID = @artistid;
 		update ARTWORK set GID = NULL 
 		where ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid);
-		print '½âÔ¼³É¹¦';
+		print 'è§£çº¦æˆåŠŸ';
 	end
 go
 
--- Ò»¼ş²éÑ¯±¾»­ÀÈ¶©µ¥
+-- ä¸€ä»¶æŸ¥è¯¢æœ¬ç”»å»Šè®¢å•
 declare @gid varchar(10);
-select * from TRADE where ARTID in (select * from ARTWORK where GID = @gid)
+select * from TRADE where ARTID in (select ARTID from ARTWORK where GID = @gid)
 go
 
--- ¸Ãº¯Êı½«ÊäÈëµÄÖĞÎÄ×ª»»Îª´óĞ´µÄÃ¿¸öºº×ÖÊ××ÖÄ¸ËõĞ´
--- ÀıÈç 'ÖĞ¹ú' -> 'ZG'
+-- è¯¥å‡½æ•°å°†è¾“å…¥çš„ä¸­æ–‡è½¬æ¢ä¸ºå¤§å†™çš„æ¯ä¸ªæ±‰å­—é¦–å­—æ¯ç¼©å†™
+-- ä¾‹å¦‚ 'ä¸­å›½' -> 'ZG'
 Create FUNCTION dbo.procGetPY(@str NVARCHAR(4000))
 	RETURNS NVARCHAR(4000) 
 -- WITH ENCRYPTION 
@@ -43,35 +43,35 @@ AS
 		WHILE LEN(@STR)>0 
 		BEGIN 
 		SET @WORD=LEFT(@STR,1) 
-		--Èç¹û·Çh×Ö×Ö·û©o·µ»ØÔ­×Ö·û 
+		--å¦‚æœéæ¼¢å­—å­—ç¬¦ï¹è¿”å›åŸå­—ç¬¦ 
 		SET @PY=@PY+(CASE WHEN UNICODE(@WORD) BETWEEN 19968 AND 19968+20901 
 		THEN ( 
 		SELECT TOP 1 PY 
 		FROM 
 		( 
-		SELECT 'A' AS PY,N'òˆ' AS WORD 
-		UNION ALL SELECT 'B',N'²¾' 
-		UNION ALL SELECT 'C',N'åe' 
-		UNION ALL SELECT 'D',N'ùz' 
-		UNION ALL SELECT 'E',N'˜Ş' 
-		UNION ALL SELECT 'F',N'öv' 
-		UNION ALL SELECT 'G',N'ÄB' 
-		UNION ALL SELECT 'H',N'‰ş' 
-		UNION ALL SELECT 'J',N'”h' 
-		UNION ALL SELECT 'K',N'·i' 
-		UNION ALL SELECT 'L',N'÷w' 
-		UNION ALL SELECT 'M',N'”æ' 
-		UNION ALL SELECT 'N',N'–ş' 
-		UNION ALL SELECT 'O',N'a' 
-		UNION ALL SELECT 'P',N'ÆØ' 
-		UNION ALL SELECT 'Q',N'‡İ' 
-		UNION ALL SELECT 'R',N'úU' 
-		UNION ALL SELECT 'S',N'ÎR' 
-		UNION ALL SELECT 'T',N'»X' 
-		UNION ALL SELECT 'W',N'úF' 
-		UNION ALL SELECT 'X',N'èR' 
-		UNION ALL SELECT 'Y',N'í' 
-		UNION ALL SELECT 'Z',N'×ö' 
+		SELECT 'A' AS PY,N'é©' AS WORD 
+		UNION ALL SELECT 'B',N'ç°¿' 
+		UNION ALL SELECT 'C',N'éŒ¯' 
+		UNION ALL SELECT 'D',N'éµ½' 
+		UNION ALL SELECT 'E',N'æ¨²' 
+		UNION ALL SELECT 'F',N'é°’' 
+		UNION ALL SELECT 'G',N'è…‚' 
+		UNION ALL SELECT 'H',N'å¤»' 
+		UNION ALL SELECT 'J',N'æ”ˆ' 
+		UNION ALL SELECT 'K',N'ç©’' 
+		UNION ALL SELECT 'L',N'é±³' 
+		UNION ALL SELECT 'M',N'æ—€' 
+		UNION ALL SELECT 'N',N'æ¡›' 
+		UNION ALL SELECT 'O',N'æ¼š' 
+		UNION ALL SELECT 'P',N'æ›' 
+		UNION ALL SELECT 'Q',N'å›•' 
+		UNION ALL SELECT 'R',N'é¶¸' 
+		UNION ALL SELECT 'S',N'èœ¶' 
+		UNION ALL SELECT 'T',N'ç±œ' 
+		UNION ALL SELECT 'W',N'é¶©' 
+		UNION ALL SELECT 'X',N'é‘‚' 
+		UNION ALL SELECT 'Y',N'éŸ»' 
+		UNION ALL SELECT 'Z',N'åš' 
 		) T 
 		WHERE WORD>=@WORD COLLATE CHINESE_PRC_CS_AS_KS_WS 
 		ORDER BY PY ASC 
@@ -83,7 +83,7 @@ AS
 		RETURN @PY 
 	END
 Go
--- °ìÕ¹ÀÀ
+-- åŠå±•è§ˆ
 create proc holdExhibition
 	@gid varchar(10),
 	@startdate date,
@@ -99,18 +99,18 @@ create proc holdExhibition
 	values(@eid,@startdate,@enddate,@gid,@name);
 go
 -- test
--- exec holdExhibition '2022-12-9','2023-1-5','Á÷Ó©';
+-- exec holdExhibition '2022-12-9','2023-1-5','æµè¤';
 -- drop proc holdExhibition
 
--- ½«ĞèÒªÌí¼Ó½ø±¾´ÎÕ¹ÀÀµÄ×÷Æ·µÄEIDĞŞ¸ÄÎ»±¾´ÎÕ¹ÀÀºÅ
+-- å°†éœ€è¦æ·»åŠ è¿›æœ¬æ¬¡å±•è§ˆçš„ä½œå“çš„EIDä¿®æ”¹ä½æœ¬æ¬¡å±•è§ˆå·
 -- for artworkid in idlist:
 declare @eid varchar(10), @artid varchar(10);
 update ARTWORK set EID = @eid where ARTID = @artid;
--- ĞŞ¸ÄEXB_ARTIST
+-- ä¿®æ”¹EXB_ARTIST
 insert into EXB_ARTIST(EID,ARTISTID) select EID,ARTISTID from ARTWORK where EID = @eid;
 go
 
--- ´ÓÕ¹ÀÀÉ¾³ıÄ³¼ş×÷Æ·
+-- ä»å±•è§ˆåˆ é™¤æŸä»¶ä½œå“
 create proc rmvArtwkFromExb
 	@artid varchar(10),
 	@eid varchar(10)
@@ -123,7 +123,7 @@ create proc rmvArtwkFromExb
 	end
 go
 
--- ½áÊøÕ¹ÀÀ
+-- ç»“æŸå±•è§ˆ
 create proc endExhibition
 	@gid varchar(10),
 	@eid varchar(10)
@@ -132,18 +132,18 @@ create proc endExhibition
 	update ARTWORK set EID = NULL where EID = @eid;
 go
 
--- »­ÀÈ×¢Ïú
+-- ç”»å»Šæ³¨é”€
 create proc glogoff
 	@gid varchar(10)
 	as
 	if exists(select * from EXHIBITION where GID = @gid and (ESTARTDATE < GETDATE() and EENDDATE > GETDATE())) begin
-		print 'µ±Ç°ÓĞÕ¹ÀÀÃ»ÓĞ°ìÍê£¬²»ÄÜ×¢Ïú£¡'
+		print 'å½“å‰æœ‰å±•è§ˆæ²¡æœ‰åŠå®Œï¼Œä¸èƒ½æ³¨é”€ï¼'
 	end
 	else begin
-	-- ËùÓĞÒÕÊõ¼ÒÊ§Òµ
+	-- æ‰€æœ‰è‰ºæœ¯å®¶å¤±ä¸š
 	update ARTIST set GID = NULL where GID = @gid;
-	-- ËùÓĞ×÷Æ·GID×Ö¶ÎĞŞ¸ÄÎ´NULL
+	-- æ‰€æœ‰ä½œå“GIDå­—æ®µä¿®æ”¹æœªNULL
 	update ARTWORK set GID = NULL where GID = @gid;
-	-- GALLERY±íÉ¾³ı²Ù×÷ÓÉÏµÍ³¹ÜÀíÔ±Ö´ĞĞ
+	-- GALLERYè¡¨åˆ é™¤æ“ä½œç”±ç³»ç»Ÿç®¡ç†å‘˜æ‰§è¡Œ
 	end
 go
