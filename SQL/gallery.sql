@@ -1,13 +1,20 @@
 -- 画廊管理员
 
 -- 修改艺术品价格
-declare @newprice money,@artid varchar(10);
-update ARTWORK set ARTPRICE = @newprice where ARTID = @artid;
+create proc alterArtwkPrs
+	@newprice money,
+	@artid varchar(10)
+	as
+	update ARTWORK set ARTPRICE = @newprice where ARTID = @artid;
 go
 
 -- 与艺术家签约
-declare @artistid varchar(10),@gid varchar(10);
-update ARTIST set GID = @gid where ARTISTID = @artistid;
+create proc makeContrack
+	@artistid varchar(10),
+	@gid varchar(10)
+	as
+	update ARTIST set GID = @gid where ARTISTID = @artistid;
+	update ARTWORK set GID = @gid where ARTISTID = @artistid;
 go
 
 -- 与艺术家解约
@@ -83,6 +90,7 @@ AS
 		RETURN @PY 
 	END
 Go
+
 -- 办展览
 create proc holdExhibition
 	@gid varchar(10),
@@ -98,9 +106,6 @@ create proc holdExhibition
 	insert into EXHIBITION(EID,ESTARTDATE,EENDDATE,GID,ENAME)
 	values(@eid,@startdate,@enddate,@gid,@name);
 go
--- test
--- exec holdExhibition '2022-12-9','2023-1-5','流萤';
--- drop proc holdExhibition
 
 -- 将需要添加进本次展览的作品的EID修改位本次展览号
 -- for artworkid in idlist:
@@ -129,7 +134,7 @@ create proc endExhibition
 	@eid varchar(10)
 	as
 	delete from EXB_ARTIST where EID = @eid;
-	update ARTWORK set EID = NULL where EID = @eid;
+	update ARTWORK set EID = NULL,ARTSTATUS = '正常' where EID = @eid;
 go
 
 -- 画廊注销
