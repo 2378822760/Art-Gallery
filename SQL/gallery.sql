@@ -1,15 +1,37 @@
 -- 画廊管理员
 
--- 修改艺术品价格√
-create proc guest.G_alterArtwkPrs
-	@newprice money,
+
+-- 添加艺术品
+create proc Gallery.addArtwk
+	@name varchar(20),
+	@type varchar(10),
+	@cyear varchar(20),
+	@price money,
+	@artistid varchar(10),
+	@gid varchar(10) = NULL
+	as
+	declare @id varchar(10), @num decimal(3,0);
+	select @id = guest.procGetPY(@name);
+	select @num = 1000 * RAND();
+	select @id += CONVERT(varchar(3),@num);
+	insert into ARTWORK(ARTID,ARTTITLE,ARTTYPE,ARTTYPE,ARTPRICE,ARTISTID,GID)
+	values(@id,@name,@cyear,@type,@price,@artistid,@gid);
+go
+
+-- 修改艺术品信息√
+create proc Gallery.alterArtwkInfo
+	@name varchar(20),
+	@type varchar(10),
+	@cyear varchar(20),
+	@price money,
 	@artid varchar(10)
 	as
-	update ARTWORK set ARTPRICE = @newprice where ARTID = @artid;
+	update ARTWORK set ARTPRICE = @price,ARTTITLE = @name,ARTTYPE = @cyear,ARTTYPE = @type
+	where ARTID = @artid;
 go
 
 -- 与艺术家签约√
-create proc guest.G_makeContrack
+create proc Gallery.makeContrack
 	@artistid varchar(10),
 	@gid varchar(10)
 	as
@@ -18,7 +40,7 @@ create proc guest.G_makeContrack
 go
 
 -- 与艺术家解约√
-create proc guest.G_breakContrack
+create proc Gallery.breakContrack
 	@gid varchar(10),
 	@artistid varchar(10)
 	as
@@ -34,65 +56,17 @@ create proc guest.G_breakContrack
 go
 
 -- 一键查询本画廊订单
-declare @gid varchar(10);
-select * from TRADE where ARTID in (select ARTID from ARTWORK where GID = @gid)
+create proc Gallery.showOrder
+	@gid varchar(10)
+	as
+	select TRADEID as 订单号,CID as 顾客号,CNAME 姓名,ARTID 作品号,
+	ARTNAME 作品名,TRADEDATE 日期,TRADESTATUS 订单状态状态,GID 交易画廊号
+	from TRADE 
+	where GID  = @gid;
 go
 
--- 该函数将输入的中文转换为大写的每个汉字首字母缩写√
--- 例如 '中国' -> 'ZG'
-Create FUNCTION guest.procGetPY(@str NVARCHAR(4000))
-RETURNS NVARCHAR(4000) 
--- WITH ENCRYPTION 
-AS
-BEGIN 
-DECLARE @WORD NCHAR(1),@PY NVARCHAR(4000) 
-SET @PY='' 
-WHILE LEN(@STR)>0 
-BEGIN 
-SET @WORD=LEFT(@STR,1) 
---如果非漢字字符﹐返回原字符 
-SET @PY=@PY+(CASE WHEN UNICODE(@WORD) BETWEEN 19968 AND 19968+20901 
-THEN ( 
-SELECT TOP 1 PY 
-FROM 
-( 
-SELECT 'A' AS PY,N'驁' AS WORD 
-UNION ALL SELECT 'B',N'簿' 
-UNION ALL SELECT 'C',N'錯' 
-UNION ALL SELECT 'D',N'鵽' 
-UNION ALL SELECT 'E',N'樲' 
-UNION ALL SELECT 'F',N'鰒' 
-UNION ALL SELECT 'G',N'腂' 
-UNION ALL SELECT 'H',N'夻' 
-UNION ALL SELECT 'J',N'攈' 
-UNION ALL SELECT 'K',N'穒' 
-UNION ALL SELECT 'L',N'鱳' 
-UNION ALL SELECT 'M',N'旀' 
-UNION ALL SELECT 'N',N'桛' 
-UNION ALL SELECT 'O',N'漚' 
-UNION ALL SELECT 'P',N'曝' 
-UNION ALL SELECT 'Q',N'囕' 
-UNION ALL SELECT 'R',N'鶸' 
-UNION ALL SELECT 'S',N'蜶' 
-UNION ALL SELECT 'T',N'籜' 
-UNION ALL SELECT 'W',N'鶩' 
-UNION ALL SELECT 'X',N'鑂' 
-UNION ALL SELECT 'Y',N'韻' 
-UNION ALL SELECT 'Z',N'做' 
-) T 
-WHERE WORD>=@WORD COLLATE CHINESE_PRC_CS_AS_KS_WS 
-ORDER BY PY ASC 
-) 
-ELSE @WORD 
-END) 
-SET @STR=RIGHT(@STR,LEN(@STR)-1) 
-END 
-RETURN @PY 
-END
-Go
-
 -- 办展览√
-create proc guest.G_holdExhibition
+create proc Gallery.holdExhibition
 	@gid varchar(10),
 	@startdate date,
 	@enddate date,
@@ -115,21 +89,33 @@ go
 -- insert into EXB_ARTIST(EID,ARTISTID) select EID,ARTISTID from ARTWORK where EID = @eid;
 -- go
 
+create proc Gallery.pickArtwkForExb
+	@artid varchar(10),
+	@eid varchar(10)
+	as
+	update ARTWORK set EID = @eid where ARTID = @artid;
+	declare @artistid varchar(10)
+	select @artistid = ARTISTID from EXB_ARTIST where EID = @eid;
+	if @artistid is null begin
+		insert into EXB_ARTIST(EID,ARTISTID) values(@eid,@artistid);
+	end
+go
+
 -- 从展览删除某件作品√
-create proc guest.G_rmvArtwkFromExb
+create proc Gallery.rmvArtwkFromExb
 	@artid varchar(10),
 	@eid varchar(10)
 	as
 	declare @artistid varchar(10);
 	select @artistid = ARTISTID from ARTWORK where ARTID = @artid;
-	update ARTWORK set EID = NULL where EID = @eid;
+	update ARTWORK set EID = NULL,ARTSTATUS = '正常' where EID = @eid;
 	if exists(select * from ARTWORK where ARTISTID = @artistid) begin
 		delete from EXB_ARTIST where ARTISTID = @artistid;
 	end
 go
 
 -- 结束展览√
-create proc guest.G_endExhibition
+create proc Gallery.endExhibition
 	@gid varchar(10),
 	@eid varchar(10)
 	as
@@ -138,7 +124,7 @@ create proc guest.G_endExhibition
 go
 
 -- 画廊注销√
-create proc guest.G_glogoff
+create proc Gallery.logoff
 	@gid varchar(10)
 	as
 	if exists(select * from EXHIBITION where GID = @gid and (ESTARTDATE < GETDATE() and EENDDATE > GETDATE())) begin
@@ -152,4 +138,7 @@ create proc guest.G_glogoff
 	-- GALLERY表删除操作由系统管理员执行
 	end
 go
+
+
+-- 创建订单
 
