@@ -1,33 +1,134 @@
-declare @artid varchar(10);
-declare @artistid varchar(10);
-declare @eid varchar(10);
-declare @cid varchar(10);
-declare @gid varchar(10);
+use AG
+go
 -- ARTIST
--- Ê¹ÓÃ×÷Æ·ºÅÉ¾³ý×÷Æ·
-delete from ARTWORK where ARTID = @artid;
+-- è‰ºæœ¯å®¶æ³¨å†Œ
+create proc Manager.loginArtist
+	@name varchar(20),
+	@bp varchar(40),
+	@style varchar(20)
+	as
+	declare @id varchar(10), @num decimal(3,0);
+	select @id = guest.procGetPY(@name);
+	select @num = 1000 * RAND();
+	select @id += CONVERT(varchar(3),@num);
+	insert into ARTIST(ARTISTID,ARTISTNAME,ARTISTBP,ARTISTSTYLE)
+	values(@id,@name,@bp,@style);
+go
 
--- ARTWORK
--- Ê¹ÓÃÒÕÊõ¼ÒIDÉ¾³ýÒÕÊõ¼Ò
-delete from ARTIST where ARTISTID = @artistid;
+-- ä½¿ç”¨è‰ºæœ¯å®¶IDåˆ é™¤è‰ºæœ¯å®¶
+create proc Manager.logoffArtist
+	@id varchar(10)
+	as
+	delete from ARTIST where ARTISTID = @id;
+go
 
 -- CUST_RECORD
--- ·ÃÎÊ¼ÇÂ¼±£Áô
+-- è®¿é—®è®°å½•ä¿ç•™
 
 
 -- CUSTOMER
--- Í¨¹ý¿Í»§IDÉ¾³ý¿Í»§
-delete from CUSTOMER where CID = @cid;
+-- é¡¾å®¢æ³¨å†Œ
+create proc Manager.loginCustomer
+	@name varchar(20),
+	@address varchar(40),
+	@birth date,
+	@phonenumber varchar(11)
+	as
+	declare @id varchar(10), @num decimal(3,0);
+	select @id = guest.procGetPY(@name);
+	select @num = 1000 * RAND();
+	select @id += CONVERT(varchar(3),@num);
+	insert into CUSTOMER(CID,CNAME,CADDRESS,CDOB,CPHONE)
+	values(@id,@name,@address,@birth,@phonenumber)
+go
+
+-- é€šè¿‡å®¢æˆ·IDåˆ é™¤å®¢æˆ·
+create proc Manager.logoffCustomer
+	@id varchar(10)
+	as
+	delete from CUSTOMER where CID = @id;
+go
 
 -- EXB_ARTIST
--- È¨Á¦ÏÂ·Å
+-- æƒåŠ›ä¸‹æ”¾
 
 -- EXHIBITION
--- Õ¹ÀÀÐÅÏ¢±£Áô
+-- å±•è§ˆä¿¡æ¯ä¿ç•™
 
 -- GALLERY
--- »­ÀÈÀë¿ªÏµÍ³£¬Í¨¹ýGIDÉ¾³ý»­ÀÈ
-delete from GALLERY where GID = @gid;
+-- ç”»å»Šæ³¨å†Œ
+create proc Manager.loginGallery
+	@name varchar(20),
+	@location varchar(40)
+	as
+	declare @id varchar(10), @num decimal(3,0);
+	select @id = guest.procGetPY(@name);
+	select @num = 1000 * RAND();
+	select @id += CONVERT(varchar(3),@num);
+	insert into GALLERY(GID,GNAME,GLOCATION)
+	values(@id,@name,@location)
+go
 
--- ¶©µ¥ÐÅÏ¢±£Áô
+-- ç”»å»Šç¦»å¼€ç³»ç»Ÿï¼Œé€šè¿‡GIDåˆ é™¤ç”»å»Š
+-- ä¿®æ”¹GIDå­—æ®µä¸ºGALLERYçš„åå­—
+create proc Manager.logoffGallery
+	@id varchar(10)
+	as
+	declare @name varchar(20);
+	select @name = GNAME from GALLERY where GID = @id;
+	update EXHIBITION set GID = @name where GID = @id;
+	delete from GALLERY where GID = @id;
+go
 
+-- è®¢å•ä¿¡æ¯ä¿ç•™
+
+Create FUNCTION guest.procGetPY(@str NVARCHAR(4000))
+RETURNS NVARCHAR(4000) 
+-- WITH ENCRYPTION 
+AS
+BEGIN 
+DECLARE @WORD NCHAR(1),@PY NVARCHAR(4000) 
+SET @PY='' 
+WHILE LEN(@STR)>0 
+BEGIN 
+SET @WORD=LEFT(@STR,1) 
+--å¦‚æžœéžæ¼¢å­—å­—ç¬¦ï¹è¿”å›žåŽŸå­—ç¬¦ 
+SET @PY=@PY+(CASE WHEN UNICODE(@WORD) BETWEEN 19968 AND 19968+20901 
+THEN ( 
+SELECT TOP 1 PY 
+FROM 
+( 
+SELECT 'A' AS PY,N'é©' AS WORD 
+UNION ALL SELECT 'B',N'ç°¿' 
+UNION ALL SELECT 'C',N'éŒ¯' 
+UNION ALL SELECT 'D',N'éµ½' 
+UNION ALL SELECT 'E',N'æ¨²' 
+UNION ALL SELECT 'F',N'é°’' 
+UNION ALL SELECT 'G',N'è…‚' 
+UNION ALL SELECT 'H',N'å¤»' 
+UNION ALL SELECT 'J',N'æ”ˆ' 
+UNION ALL SELECT 'K',N'ç©’' 
+UNION ALL SELECT 'L',N'é±³' 
+UNION ALL SELECT 'M',N'æ—€' 
+UNION ALL SELECT 'N',N'æ¡›' 
+UNION ALL SELECT 'O',N'æ¼š' 
+UNION ALL SELECT 'P',N'æ›' 
+UNION ALL SELECT 'Q',N'å›•' 
+UNION ALL SELECT 'R',N'é¶¸' 
+UNION ALL SELECT 'S',N'èœ¶' 
+UNION ALL SELECT 'T',N'ç±œ' 
+UNION ALL SELECT 'W',N'é¶©' 
+UNION ALL SELECT 'X',N'é‘‚' 
+UNION ALL SELECT 'Y',N'éŸ»' 
+UNION ALL SELECT 'Z',N'åš' 
+) T 
+WHERE WORD>=@WORD COLLATE CHINESE_PRC_CS_AS_KS_WS 
+ORDER BY PY ASC 
+) 
+ELSE @WORD 
+END) 
+SET @STR=RIGHT(@STR,LEN(@STR)-1) 
+END 
+RETURN @PY 
+END
+Go
