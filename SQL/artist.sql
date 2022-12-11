@@ -1,57 +1,61 @@
--- ÒÕÊõ¼ÒµÄÌØÈ¨²Ù×÷
+-- è‰ºæœ¯å®¶çš„ç‰¹æƒæ“ä½œ
 
-declare @artistid varchar(10);
-declare @artistname varchar(20);
-declare @artistbp varchar(40);
-declare @artiststyle varchar(20);
-
--- ²éÑ¯×Ô¼º×÷Æ·ÀúÊ·½»Ò×¼ÇÂ¼
-select * from TRADE where ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE ASC;
-select * from TRADE where ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE DESC;
-select * from TRADE where TRADESTATUS = '½»Ò×½¨Á¢' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE ASC;
-select * from TRADE where TRADESTATUS = '½»Ò×½¨Á¢' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE DESC;
-select * from TRADE where TRADESTATUS = 'ÔËÊäÖĞ' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE ASC;
-select * from TRADE where TRADESTATUS = 'ÔËÊäÖĞ' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE DESC;
-select * from TRADE where TRADESTATUS = 'Íê³É' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE ASC;
-select * from TRADE where TRADESTATUS = 'Íê³É' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE DESC;
-select * from TRADE where TRADESTATUS = 'È¡Ïû' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE ASC;
-select * from TRADE where TRADESTATUS = 'È¡Ïû' and ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid) order by TRADEDATE DESC;
-
--- ¸ü¸Ä×Ô¼ºµÄ¸öÈËĞÅÏ¢
-update ARTIST set ARTISTNAME = @artistname,ARTISTBP = @artistbp,
-ARTISTSTYLE = @artiststyle where ARTISTID = @artistid;
-
--- ÏÂ¼Ü×Ô¼ºµÄÒÕÊõÆ·
-declare @artid varchar(10);
-update ARTWORK set GID = NULL where ARTID = @artid and ARTISTID = @artistid;
+-- æŸ¥è¯¢è‡ªå·±ä½œå“å†å²äº¤æ˜“è®°å½•
+create proc Artist.showOrder
+	@artistid varchar(10)
+	as
+	select TRADEID as è®¢å•å·,CID as é¡¾å®¢å·,CNAME å§“å,ARTID ä½œå“å·,
+	ARTNAME ä½œå“å,TRADEDATE æ—¥æœŸ,TRADESTATUS è®¢å•çŠ¶æ€çŠ¶æ€,GID äº¤æ˜“ç”»å»Šå·
+	from TRADE 
+	where ARTID in (select ARTID from ARTWORK where ARTISTID  = @artistid)
 go
 
--- ½âÔ¼»­ÀÈ
-create proc breakContrack
+-- æ›´æ”¹è‡ªå·±çš„ä¸ªäººä¿¡æ¯
+create proc Artist.alterArtistInfo
+	@id varchar(10),
+	@name varchar(20),
+	@bp varchar(40),
+	@style varchar(20)
+	as
+	update ARTIST set ARTISTNAME = @name,ARTISTBP = @bp,
+	ARTISTSTYLE = @style where ARTISTID = @id;
+go
+
+-- ä¸‹æ¶è‡ªå·±çš„è‰ºæœ¯å“
+create proc Artist.noSellArtwk
+	@artid varchar(10),
+	@artistid varchar(10)
+	as
+	update ARTWORK set GID = NULL where ARTID = @artid and ARTISTID = @artistid;
+go
+
+-- è§£çº¦ç”»å»Š
+create proc Artist.breakContrack
 	@gid varchar(10),
 	@artistid varchar(10)
 	as
 	if exists(select * from EXB_ARTIST where ARTISTID = @artistid) begin
-		print 'Äúµ±Ç°ÓĞ×÷Æ·ÕıÔÚÕ¹ÀÀ£¬²»ÄÜ½âÔ¼£¬Çë´ıÕ¹ÀÀ½áÊøºó½øĞĞ½âÔ¼!';
+		print 'æ‚¨å½“å‰æœ‰ä½œå“æ­£åœ¨å±•è§ˆï¼Œä¸èƒ½è§£çº¦ï¼Œè¯·å¾…å±•è§ˆç»“æŸåè¿›è¡Œè§£çº¦!';
 	end
 	else begin
 		update ARTIST set GID = NULL where ARTISTID = @artistid;
 		update ARTWORK set GID = NULL 
 		where ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid);
-		print '½âÔ¼³É¹¦';
+		print 'è§£çº¦æˆåŠŸ';
 	end
 go
 
--- ÒÕÊõ¼Ò×¢Ïú
-create proc logoff
+-- è‰ºæœ¯å®¶æ³¨é”€
+-- æ³¨é”€æ“ä½œç”±ç³»ç»Ÿç®¡ç†å‘˜å®Œæˆ
+create proc Artist.logoff
 	@artistid varchar(10)
 	as
 	if exists(select * from EXB_ARTIST where ARTISTID = @artistid) begin
-		print 'Äúµ±Ç°ÓĞ×÷Æ·ÕıÔÚÕ¹ÀÀ£¬²»ÄÜ×¢Ïú£¬Çë´ıÕ¹ÀÀ½áÊøºó½øĞĞ×¢Ïú!';
+		print 'æ‚¨å½“å‰æœ‰ä½œå“æ­£åœ¨å±•è§ˆï¼Œä¸èƒ½æ³¨é”€ï¼Œè¯·å¾…å±•è§ˆç»“æŸåè¿›è¡Œæ³¨é”€!';
 	end
-	else begin
-		-- ¼¶ÁªÉ¾³ı×÷Æ·
-		delete from ARTIST where ARTISTID = @artistid;
-		-- ARTIST±íÉ¾³ı²Ù×÷ÓÉÏµÍ³¹ÜÀíÔ±Ö´ĞĞ
-	end
+	-- else begin
+		-- çº§è”åˆ é™¤ä½œå“
+		-- delete from ARTIST where ARTISTID = @artistid;
+		-- ARTISTè¡¨åˆ é™¤æ“ä½œç”±ç³»ç»Ÿç®¡ç†å‘˜æ‰§è¡Œ
+	-- end
 go
