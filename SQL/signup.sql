@@ -7,6 +7,7 @@
 -- 他们的服务器角色都为public
 use AG
 go
+exec sp_addlogin 'Manager','123','AG'
 exec sp_addlogin 'Gallery','123','AG'
 exec sp_addlogin 'Artist','123','AG'
 exec sp_addlogin 'Customer','123','AG'
@@ -18,12 +19,14 @@ go
 -- 数据库用户名缺失默认未登录用户名
 -- 删除语法如下:
 -- sp_revokedbacces '数据库用户名'
+exec sp_grantdbaccess 'Manager'
 exec sp_grantdbaccess 'Gallery'
 exec sp_grantdbaccess 'Artist'
 exec sp_grantdbaccess 'Customer'
 go
 
 -- 为将数据库用户和数据库角色映射
+exec sp_addrolemember R_MANAGER, Manager;
 exec sp_addrolemember R_GALLERY, Gallery;
 exec sp_addrolemember R_ARTIST, Artist;
 exec sp_addrolemember R_CUSTOMER, Customer;
