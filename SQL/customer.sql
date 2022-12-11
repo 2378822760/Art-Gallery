@@ -1,37 +1,45 @@
-declare @id varchar(10),@name varchar(20),@address varchar(40),@ob date,@phone varchar(11);
-declare @satisf int, @eid varchar(10);
+-- æ¶ˆè´¹è€…çš„ç‰¹æƒæŒ‡ä»¤
 
--- ²éÑ¯ÀúÊ·½»Ò×¼ÇÂ¼
-select * from TRADE where CID = @id order by TRADEDATE ASC;
-select * from TRADE where CID = @id order by TRADEDATE DESC;
-select * from TRADE where CID = @id and TRADESTATUS = '½»Ò×½¨Á¢' order by TRADEDATE ASC;
-select * from TRADE where CID = @id and TRADESTATUS = '½»Ò×½¨Á¢' order by TRADEDATE DESC;
-select * from TRADE where CID = @id and TRADESTATUS = 'ÔËÊäÖĞ' order by TRADEDATE ASC;
-select * from TRADE where CID = @id and TRADESTATUS = 'ÔËÊäÖĞ' order by TRADEDATE DESC;
-select * from TRADE where CID = @id and TRADESTATUS = 'Íê³É' order by TRADEDATE ASC;
-select * from TRADE where CID = @id and TRADESTATUS = 'Íê³É' order by TRADEDATE DESC;
-select * from TRADE where CID = @id and TRADESTATUS = 'È¡Ïû' order by TRADEDATE ASC;
-select * from TRADE where CID = @id and TRADESTATUS = 'È¡Ïû' order by TRADEDATE DESC;
-
--- ĞŞ¸Ä¸öÈËĞÅÏ¢
-update CUSTOMER set CNAME = @name,CADDRESS = @address,CDOB = @ob,CPHONE = @phone
-where CID = @id;
-
--- ¸üĞÂÄ³´ÎÆÀ¼Û½á¹û
-update CUST_RECORD set SATISFACTION = @satisf where CID = @id and EID = @eid;
+-- æŸ¥è¯¢å†å²äº¤æ˜“è®°å½•
+create proc Customer.showOoder
+	@cid varchar(10)
+	as
+	select TRADEID as è®¢å•å·,CID as é¡¾å®¢å·,CNAME å§“å,ARTID ä½œå“å·,
+	ARTNAME ä½œå“å,TRADEDATE æ—¥æœŸ,TRADESTATUS è®¢å•çŠ¶æ€çŠ¶æ€,GID äº¤æ˜“ç”»å»Šå·
+	from TRADE 
+	where CID = @cid;
 go
--- ²éÑ¯Ä³´ÎÕ¹ÀÀµÄÂúÒâ¶ÈÇé¿ö
-create proc query_satisf
+
+-- ä¿®æ”¹ä¸ªäººä¿¡æ¯
+create proc Customer.alterCstmInfo
+	@id varchar(10),
+	@name varchar(20),
+	@address varchar(40),
+	@birth date,
+	@phonenumber varchar(20)
+	as
+	update CUSTOMER set CNAME = @name,CADDRESS = @address,CDOB = @birth,CPHONE = @phonenumber
+	where CID = @id;
+go
+
+-- æ›´æ–°æŸæ¬¡è¯„ä»·ç»“æœ
+create proc Customer.alterAssessLv
+	@eid varchar(10),
+	@cid varchar(10),
+	@lv smallint
+	as
+	update CUST_RECORD set SATISFACTION = @lv where CID = @cid and EID = @eid;
+go
+
+-- æŸ¥è¯¢æŸæ¬¡å±•è§ˆçš„æ»¡æ„åº¦æƒ…å†µ
+create proc Customer.showSatisfy
 	@eid varchar(10)
 	as
 	declare @sum int
 	select @sum = COUNT(*) from CUST_RECORD where EID = @eid
-	select SATISFACTION as ÂúÒâµÈ¼¶, count(*) as ×ÜÊı,1.0 * count(*) / @sum as ±ÈÀı from CUST_RECORD where EID = @eid
+	select SATISFACTION as æ»¡æ„ç­‰çº§, count(*) as æ€»æ•°,1.0 * count(*) / @sum as æ¯”ä¾‹ from CUST_RECORD where EID = @eid
 	group by SATISFACTION
 go
-exec query_satisf 'H001';
-drop proc query_satisf;
-go
 
--- ÓÃ»§×¢Ïú
--- Ã»Ê²Ã´Òª×öµÄ£¬CUSTOMER±íÓÉÏµÍ³¹ÜÀíÔ±Î¬»¤
+-- ç”¨æˆ·æ³¨é”€
+-- æ²¡ä»€ä¹ˆè¦åšçš„ï¼ŒCUSTOMERè¡¨ç”±ç³»ç»Ÿç®¡ç†å‘˜ç»´æŠ¤
