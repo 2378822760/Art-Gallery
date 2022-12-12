@@ -82,9 +82,11 @@ go
 
 -- 订单信息保留
 
+
+
+--将汉字转为拼音首字母大写函数
 Create FUNCTION guest.procGetPY(@str NVARCHAR(4000))
 RETURNS NVARCHAR(4000) 
--- WITH ENCRYPTION 
 AS
 BEGIN 
 DECLARE @WORD NCHAR(1),@PY NVARCHAR(4000) 
