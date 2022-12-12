@@ -1,3 +1,5 @@
+-- 通用查询
+
 -- 查询所有画廊√
 create proc guest.showAllGallery
 	as
@@ -15,8 +17,8 @@ go
 -- 查询某个画廊开展的展览√
 -- 为了防止画廊注销，可以使用画廊名字或者画廊号查询
 create proc guest.showGalleryExb
-	@gid varchar(10) = NULL
-	-- @gname varchar(20) = NULL
+	@gid varchar(20) = NULL
+	-- @gname varchar(30) = NULL
 	as
 	select EXHIBITION.EID as 展览号, ENAME as 展览名, ESTARTDATE as 开始日期, EENDDATE as 结束日期, GNAME as 举办方 
 	from EXHIBITION,GALLERY where EXHIBITION.GID = GALLERY.GID and EXHIBITION.GID = @gid;
@@ -28,10 +30,10 @@ create proc guest.showAllArtist
 	select ARTISTID as 艺术家号,ARTISTNAME as 姓名,ARTISTBP as 出生地,ARTISTSTYLE as 作品风格,GNAME as 签约画廊 
 	from ARTIST left outer join GALLERY on ARTIST.GID = GALLERY.GID
 go
-
--- 查询某个画廊签约的所有艺术家√
+√
+-- 查询某个画廊签约的所有艺术家
 create proc guest.showGalleryArtist
-	@gid varchar(10)
+	@gid varchar(20)
 	as
 	select ARTISTID as 艺术家号,ARTISTNAME as 姓名,ARTISTBP as 出生地,ARTISTSTYLE as 作品风格,GNAME as 签约画廊 
 	from ARTIST left outer join GALLERY on ARTIST.GID = GALLERY.GID where ARTIST.GID = @gid;
@@ -56,7 +58,7 @@ go
 
 -- 查询某个画廊所有作品
 create proc guest.showGalleryArtwk
-	@gid varchar(10)
+	@gid varchar(20)
 	as
 	select ARTID as 作品号,ARTTITLE as 作品名, ARTTYPE as 作品类型,ARTYEAR as 创作年份,ARTPRICE as 参考价,
 	ARTSTATUS as 状态,ARTISTID as 作者号,GID as 所属画廊,EID as 所属展览
@@ -66,7 +68,7 @@ go
 
 -- 查询某个展览所有作品
 create proc guest.showExbArtwk
-	@eid varchar(10)
+	@eid varchar(20)
 	as
 	select ARTID as 作品号,ARTTITLE as 作品名, ARTTYPE as 作品类型,ARTYEAR as 创作年份,ARTPRICE as 参考价,
 	ARTSTATUS as 状态,ARTISTID as 作者号,GID as 所属画廊,EID as 所属展览
@@ -76,7 +78,7 @@ go
 
 -- 查询某个艺术家所有作品
 create proc guest.showArtistArtwk
-	@artistid varchar(10)
+	@artistid varchar(20)
 	as
 	select ARTID as 作品号,ARTTITLE as 作品名, ARTTYPE as 作品类型,ARTYEAR as 创作年份,ARTPRICE as 参考价,
 	ARTSTATUS as 状态,ARTISTID as 作者号,GID as 所属画廊,EID as 所属展览
@@ -96,8 +98,8 @@ go
 
 -- 精确查找作品(按照作品号或者按照作品名)
 create proc guest.exactFindArtwk
-	@artid varchar(10),
-	@name varchar(20)
+	@artid varchar(20),
+	@name varchar(30)
 	as
 	select ARTID as 作品号,ARTTITLE as 作品名, ARTTYPE as 作品类型,ARTYEAR as 创作年份,ARTPRICE as 参考价,
 	ARTSTATUS as 状态,ARTISTID as 作者号,GID as 所属画廊,EID as 所属展览
