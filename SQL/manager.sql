@@ -3,11 +3,11 @@ go
 -- ARTIST
 -- 艺术家注册
 create proc Manager.loginArtist
-	@name varchar(20),
+	@name varchar(30),
 	@bp varchar(40),
-	@style varchar(20)
+	@style varchar(10)
 	as
-	declare @id varchar(10), @num decimal(3,0);
+	declare @id varchar(20), @num decimal(3,0);
 	select @id = guest.procGetPY(@name);
 	select @num = 1000 * RAND();
 	select @id += CONVERT(varchar(3),@num);
@@ -17,7 +17,7 @@ go
 
 -- 使用艺术家ID删除艺术家
 create proc Manager.logoffArtist
-	@id varchar(10)
+	@id varchar(20)
 	as
 	delete from ARTIST where ARTISTID = @id;
 go
@@ -29,12 +29,12 @@ go
 -- CUSTOMER
 -- 顾客注册
 create proc Manager.loginCustomer
-	@name varchar(20),
+	@name varchar(30),
 	@address varchar(40),
 	@birth date,
 	@phonenumber varchar(11)
 	as
-	declare @id varchar(10), @num decimal(3,0);
+	declare @id varchar(20), @num decimal(3,0);
 	select @id = guest.procGetPY(@name);
 	select @num = 1000 * RAND();
 	select @id += CONVERT(varchar(3),@num);
@@ -44,7 +44,7 @@ go
 
 -- 通过客户ID删除客户
 create proc Manager.logoffCustomer
-	@id varchar(10)
+	@id varchar(20)
 	as
 	delete from CUSTOMER where CID = @id;
 go
@@ -58,10 +58,10 @@ go
 -- GALLERY
 -- 画廊注册
 create proc Manager.loginGallery
-	@name varchar(20),
+	@name varchar(30),
 	@location varchar(40)
 	as
-	declare @id varchar(10), @num decimal(3,0);
+	declare @id varchar(20), @num decimal(3,0);
 	select @id = guest.procGetPY(@name);
 	select @num = 1000 * RAND();
 	select @id += CONVERT(varchar(3),@num);
@@ -72,9 +72,9 @@ go
 -- 画廊离开系统，通过GID删除画廊
 -- 修改GID字段为GALLERY的名字
 create proc Manager.logoffGallery
-	@id varchar(10)
+	@id varchar(20)
 	as
-	declare @name varchar(20);
+	declare @name varchar(30);
 	select @name = GNAME from GALLERY where GID = @id;
 	update EXHIBITION set GID = @name where GID = @id;
 	delete from GALLERY where GID = @id;
