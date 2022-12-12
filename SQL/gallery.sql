@@ -5,7 +5,7 @@
 create proc Gallery.addArtwk
 	@name varchar(20),
 	@type varchar(10),
-	@cyear varchar(20),
+	@cyear varchar(4),
 	@price money,
 	@artistid varchar(10),
 	@gid varchar(10) = NULL
@@ -14,7 +14,7 @@ create proc Gallery.addArtwk
 	select @id = guest.procGetPY(@name);
 	select @num = 1000 * RAND();
 	select @id += CONVERT(varchar(3),@num);
-	insert into ARTWORK(ARTID,ARTTITLE,ARTTYPE,ARTTYPE,ARTPRICE,ARTISTID,GID)
+	insert into ARTWORK(ARTID,ARTTITLE,ARTYEAR,ARTTYPE,ARTPRICE,ARTISTID,GID)
 	values(@id,@name,@cyear,@type,@price,@artistid,@gid);
 go
 
@@ -22,7 +22,7 @@ go
 create proc Gallery.alterArtwkInfo
 	@name varchar(20),
 	@type varchar(10),
-	@cyear varchar(20),
+	@cyear varchar(4),
 	@price money,
 	@artid varchar(10)
 	as
