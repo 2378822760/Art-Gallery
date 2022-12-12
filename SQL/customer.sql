@@ -4,8 +4,7 @@
 create proc Customer.showOrder
 	@cid varchar(10)
 	as
-	select TRADEID as 订单号,CID as 顾客号,CNAME 姓名,ARTID 作品号,
-	ARTNAME 作品名,TRADEDATE 日期,TRADESTATUS 订单状态状态,GID 交易画廊号
+	select TRADEID 订单号,CID 顾客号, CNAME 姓名, ARTID 作品号, ARTNAME 作品名, TRADEDATE 日期, TRADESTATUS 订单状态状态, GID 交易画廊号
 	from TRADE 
 	where CID = @cid;
 go
@@ -18,7 +17,7 @@ create proc Customer.alterCstmInfo
 	@birth date,
 	@phonenumber varchar(20)
 	as
-	update CUSTOMER set CNAME = @name,CADDRESS = @address,CDOB = @birth,CPHONE = @phonenumber
+	update CUSTOMER set CNAME = @name, CADDRESS = @address, CDOB = @birth, CPHONE = @phonenumber
 	where CID = @id;
 go
 
@@ -41,5 +40,4 @@ create proc Customer.showSatisfy
 	group by SATISFACTION
 go
 
--- 用户注销
--- 没什么要做的，CUSTOMER表由系统管理员维护
+-- 注销操作由系统管理员完成，用户不能自行随意注销，CUSTOMER表由系统管理员维护
