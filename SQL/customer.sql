@@ -1,7 +1,7 @@
 -- 消费者的特权指令
 
 -- 查询历史交易记录
-create proc Customer.showOoder
+create proc Customer.showOrder
 	@cid varchar(10)
 	as
 	select TRADEID as 订单号,CID as 顾客号,CNAME 姓名,ARTID 作品号,
