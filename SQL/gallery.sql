@@ -26,7 +26,7 @@ create proc Gallery.alterArtwkInfo
 	@price money,
 	@artid varchar(10)
 	as
-	update ARTWORK set ARTPRICE = @price,ARTTITLE = @name,ARTTYPE = @cyear,ARTTYPE = @type
+	update ARTWORK set ARTPRICE = @price,ARTTITLE = @name,ARTYEAR = @cyear,ARTTYPE = @type
 	where ARTID = @artid;
 go
 
