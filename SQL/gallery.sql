@@ -58,8 +58,8 @@ go
 create proc Gallery.showOrder
 	@gid varchar(20)
 	as
-	select TRADEID as 订单号,CID as 顾客号,CNAME 姓名,ARTID 作品号,
-	ARTNAME 作品名,TRADEDATE 日期,TRADESTATUS 订单状态状态,GID 交易画廊号
+	select TRADEID as 订单号, PRICE 交易金额, CID as 顾客号, CNAME 姓名, ARTID 作品号,
+	ARTNAME 作品名, TRADEDATE 日期, TRADESTATUS 订单状态状态, GID 交易画廊号
 	from TRADE 
 	where GID  = @gid;
 go
@@ -72,7 +72,7 @@ create proc Gallery.holdExhibition
 	@name varchar(30)
 	as
 	declare @eid varchar(20), @num decimal(3,0);
-	select @eid = dbo.procGetPY(@name);
+	select @eid = guest.procGetPY(@name);
 	select @num = 1000 * RAND()
 	select @eid += CONVERT(varchar(3),@num);
 	-- print @eid
@@ -131,8 +131,16 @@ create proc Gallery.logoff
 	end
 go
 
--- 创建订单TODO
-
-
-
-
+-- 修改订单状态
+create proc Gallery.alterOrderStatus
+	@tid varchar(20),
+	@status char(6)
+	as
+	declare @aid varchar(20);
+	select @aid = ARTID from TRADE where TRADEID = @tid;
+	if(@status = '建立') begin
+		update ARTWORK set ARTSTATUS = '已出售' where ARTID = @aid; end
+	else if(@status = '取消') begin
+		update ARTWORK set ARTSTATUS = '正常' where ARTID = @aid; end
+	update TRADE set TRADESTATUS = @status where TRADEID = @tid;
+go
