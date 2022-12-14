@@ -58,8 +58,8 @@ go
 create proc Gallery.showOrder
 	@gid varchar(20)
 	as
-	select TRADEID as 订单号,CID as 顾客号,CNAME 姓名,ARTID 作品号,
-	ARTNAME 作品名,TRADEDATE 日期,TRADESTATUS 订单状态状态,GID 交易画廊号
+	select TRADEID as 订单号, PRICE 交易金额, CID as 顾客号, CNAME 姓名, ARTID 作品号,
+	ARTNAME 作品名, TRADEDATE 日期, TRADESTATUS 订单状态状态, GID 交易画廊号
 	from TRADE 
 	where GID  = @gid;
 go
