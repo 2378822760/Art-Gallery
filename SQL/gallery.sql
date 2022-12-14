@@ -131,8 +131,16 @@ create proc Gallery.logoff
 	end
 go
 
--- 创建订单TODO
-
-
-
-
+-- 修改订单状态
+create proc Gallery.alterOrderStatus
+	@tid varchar(20),
+	@status char(6)
+	as
+	declare @aid varchar(20);
+	select @aid = ARTID from TRADE where TRADEID = @tid;
+	if(@status = '建立') begin
+		update ARTWORK set ARTSTATUS = '已出售' where ARTID = @aid; end
+	else if(@status = '取消') begin
+		update ARTWORK set ARTSTATUS = '正常' where ARTID = @aid; end
+	update TRADE set TRADESTATUS = @status where TRADEID = @tid;
+go
