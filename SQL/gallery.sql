@@ -72,7 +72,7 @@ create proc Gallery.holdExhibition
 	@name varchar(30)
 	as
 	declare @eid varchar(20), @num decimal(3,0);
-	select @eid = dbo.procGetPY(@name);
+	select @eid = guest.procGetPY(@name);
 	select @num = 1000 * RAND()
 	select @eid += CONVERT(varchar(3),@num);
 	-- print @eid
