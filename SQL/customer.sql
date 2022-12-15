@@ -52,7 +52,7 @@ create proc Customer.createOrder
 	set @tid = DATENAME(YEAR,@b) + DATENAME(MONTH,@b) + DATENAME(DAY,@b) + CONVERT(char(8),@a)
 	select @price = ARTPRICE, @aname = ARTTITLE from ARTWORK where ARTID = @aid;
 	select @cname = CNAME from CUSTOMER where CID = @cid;
-	insert into TRADE(TRADEID,PRICE,CID,CNAME,ARTID,ARTNAME,TRADEDATE,TRADESTATUE,GID)
+	insert into TRADE(TRADEID,PRICE,CID,CNAME,ARTID,ARTNAME,TRADEDATE,TRADESTATUS,GID)
 	values(@tid,@price,@cid,@cname,@aid,@aname,@b,'建立',@gid);
 go
 
