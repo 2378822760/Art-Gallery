@@ -89,6 +89,7 @@ create proc Gallery.pickArtwkForExb
 	declare @artistid varchar(20)
 	select @artistid = ARTISTID from EXB_ARTIST where EID = @eid;
 	if @artistid is null begin
+		select @artistid = ARTISTID from ARTWORK where ARTID = @artid;
 		insert into EXB_ARTIST(EID,ARTISTID) values(@eid,@artistid);
 	end
 go
