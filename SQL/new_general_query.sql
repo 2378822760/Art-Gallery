@@ -45,7 +45,7 @@ create proc guest.showExbArtist
 	as
 	select ARTISTID as 艺术家号,ARTISTNAME as 姓名,ARTISTBP as 出生地,ARTISTSTYLE as 作品风格,GNAME as 签约画廊 
 	from ARTIST left outer join GALLERY on ARTIST.GID = GALLERY.GID 
-	where ARTISTID in (select distinct EID from EXB_ARTIST where EID = @eid);
+	where ARTISTID in (select distinct ARTISTID from EXB_ARTIST where EID = @eid);
 go
 
 -- 查询所有作品√

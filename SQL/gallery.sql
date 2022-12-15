@@ -89,6 +89,7 @@ create proc Gallery.pickArtwkForExb
 	declare @artistid varchar(20)
 	select @artistid = ARTISTID from EXB_ARTIST where EID = @eid;
 	if @artistid is null begin
+		select @artistid = ARTISTID from ARTWORK where ARTID = @artid;
 		insert into EXB_ARTIST(EID,ARTISTID) values(@eid,@artistid);
 	end
 go
@@ -143,4 +144,13 @@ create proc Gallery.alterOrderStatus
 	else if(@status = '取消') begin
 		update ARTWORK set ARTSTATUS = '正常' where ARTID = @aid; end
 	update TRADE set TRADESTATUS = @status where TRADEID = @tid;
+go
+
+-- 创建顾客参展记录
+create proc Gallery.createCustRecord
+	@cid varchar(20),
+	@eid varchar(20)
+	as
+	insert into CUST_RECORD(EID,CID)
+	values(@eid,@cid);
 go
