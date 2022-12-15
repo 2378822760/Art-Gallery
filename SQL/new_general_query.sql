@@ -41,7 +41,7 @@ go
 
 -- 查询某个展览相关的所有艺术家√
 create proc guest.showExbArtist
-	@eid varchar(10)
+	@eid varchar(20)
 	as
 	select ARTISTID as 艺术家号,ARTISTNAME as 姓名,ARTISTBP as 出生地,ARTISTSTYLE as 作品风格,GNAME as 签约画廊 
 	from ARTIST left outer join GALLERY on ARTIST.GID = GALLERY.GID 
