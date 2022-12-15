@@ -34,10 +34,12 @@ go
 create proc Customer.showSatisfy
 	@eid varchar(20)
 	as
-	declare @sum int
-	select @sum = COUNT(*) from CUST_RECORD where EID = @eid
-	select SATISFACTION as 满意等级, count(*) as 总数,1.0 * count(*) / @sum as 比例 from CUST_RECORD where EID = @eid
-	group by SATISFACTION
+	declare @sum int;
+	select @sum = COUNT(*) from CUST_RECORD where EID = @eid and SATISFACTION != NULL;
+	select SATISFACTION as 满意等级, count(*) as 总数,1.0 * count(*) / @sum as 比例 
+	from CUST_RECORD 
+	where EID = @eid and SATISFACTION != NULL
+	group by SATISFACTION;
 go
 
 -- 创建订单
