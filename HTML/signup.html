@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+</head>
+<body>
+    <h1>欢迎使用本系统</h1>
+    <form action="signup.php" method="post">
+    <table>
+        <tr>
+            <td>用户名:</td>
+            <td>
+                <input type="text" name="usrname">
+            </td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td>
+                <input type="password" name="pwd1">
+            </td>
+        </tr>
+        <tr>
+            <td>确定密码:</td>
+            <td>
+                <input type="password" name="pwd2">
+            </td>
+        </tr>
+        <tr>
+            <td>姓名:</td>
+            <td>
+                <input type="text" name="name">
+            </td>
+        </tr>
+        <tr>
+            <td>地址:</td>
+            <td>
+                <input type="text" name="address">
+            </td>
+        </tr>
+        <tr>
+            <td>生日:</td>
+            <td>
+                <select name="year">
+                    <option>2001</option>
+                    <option>2002</option>
+                    <option>2003</option>
+                    <option>2004</option>
+                    <option>2005</option>
+                    <option>2006</option>
+                    <option>2007</option>
+                </select>
+
+                <select name="month">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                </select>
+
+                <select name="day">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>手机号:</td>
+            <td>
+                <input type="text" name="phonenum">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">注册</button>
+            </td>
+            <td>
+                <button type="reset">重置</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>
