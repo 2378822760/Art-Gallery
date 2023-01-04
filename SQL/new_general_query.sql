@@ -30,7 +30,7 @@ create proc guest.showAllArtist
 	select ARTISTID as 艺术家号,ARTISTNAME as 姓名,ARTISTBP as 出生地,ARTISTSTYLE as 作品风格,GNAME as 签约画廊 
 	from ARTIST left outer join GALLERY on ARTIST.GID = GALLERY.GID
 go
-√
+
 -- 查询某个画廊签约的所有艺术家
 create proc guest.showGalleryArtist
 	@gid varchar(20)
