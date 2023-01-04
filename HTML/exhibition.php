@@ -8,7 +8,7 @@
                 $sql = "exec guest.showAllExb";
                 break;
             case '2':
-                $sql = "exec guest.showGalleryExb " .$_POST['gid'];\
+                $sql = "exec guest.showGalleryExb " .$_POST['gid'];
                 break;
             default:
                 echo "Something error";
