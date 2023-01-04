@@ -8,17 +8,18 @@
                 $sql = "exec guest.showAllExb";
                 break;
             case '2':
-                $sql = "exec guest.showGalleryExb " .$_POST['gid'];
+                $sql = "exec guest.showGalleryExb " .$_POST['gid'];\
+                break;
             default:
                 echo "Something error";
                 break;
         }
         $result = sqlsrv_query($con,$sql);
         if ($result){
-            echo "<table><tr><th>Õ¹ÀÀºÅ</th><th>Õ¹ÀÀÃû</th><th>¿ªÊ¼ÈÕÆÚ</th><th>½áÊøÈÕÆÚ</th><th>¾Ù°ì·½</th><tr>";
+            echo "<table><tr><th>å±•è§ˆå·</th><th>å±•è§ˆå</th><th>å¼€å§‹æ—¥æœŸ</th><th>ç»“æŸæ—¥æœŸ</th><th>ä¸¾åŠæ–¹</th><tr>";
             while($row = sqlsrv_fetch_array($result)){
-                echo "<tr><td>" .$row["Õ¹ÀÀºÅ"]. "</td><td>" .$row["Õ¹ÀÀÃû"]. "</td><td>" .date_format($row["¿ªÊ¼ÈÕÆÚ"],'Y-m-d'). "</td>
-                <td>" .date_format($row["½áÊøÈÕÆÚ"],'Y-m-d'). "</td><td>" .$row["¾Ù°ì·½"]. "</td></tr>";
+                echo "<tr><td>" .$row["å±•è§ˆå·"]. "</td><td>" .$row["å±•è§ˆå"]. "</td><td>" .date_format($row["å¼€å§‹æ—¥æœŸ"],'Y-m-d'). "</td>
+                <td>" .date_format($row["ç»“æŸæ—¥æœŸ"],'Y-m-d'). "</td><td>" .$row["ä¸¾åŠæ–¹"]. "</td></tr>";
             }
             echo "</table>";
         }
