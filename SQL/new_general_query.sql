@@ -52,7 +52,7 @@ go
 create proc guest.showAllArtwk
 	as
 	select ARTID as 作品号,ARTTITLE as 作品名, ARTTYPE as 作品类型,ARTYEAR as 创作年份,ARTPRICE as 参考价,
-	ARTSTATUS as 状态,ARTISTID as 作家号,GID as 所属画廊,EID as 所属展览
+	ARTSTATUS as 状态,ARTISTID as 作者号,GID as 所属画廊,EID as 所属展览
 	from ARTWORK;
 go
 
