@@ -19,6 +19,7 @@
                 case '2':
                     $name = iconv("UTF-8","gbk//TRANSLIT",$_POST['content']);
                     $sql = "SELECT * FROM GALLERY WHERE GID = '$name' or GNAME = '$name'";
+                    break;
                 default:
                     echo "Something error";
                     break;
