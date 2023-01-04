@@ -25,7 +25,7 @@
             }
             $result = sqlsrv_query($con,$sql);
             if ($result) {
-                echo "<table><tr><th>ª≠¿»∫≈</th><th>ª≠¿»√˚</th><th>ª≠¿»Œª÷√</th><tr>";
+                echo "<table><tr><th>ÁîªÂªäÂè∑</th><th>ÁîªÂªäÂêç</th><th>ÁîªÂªä‰ΩçÁΩÆ</th><tr>";
                 while($row = sqlsrv_fetch_array($result)){
                     echo "<tr><td>" . $row["GID"]. "</td><td>" . $row["GNAME"]. "</td><td>" .$row["GLOCATION"]. "</td></tr>";
                 }
