@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>画廊管理系统</title>
+    <title>登录发现更多</title>
 </head>
 <body>
-    <h1>画廊管理系统</h1>
-    <a href="login.html">登录</a>
-    <a href="gallery.html">画廊</a>
-    <a href="exhibition.html">展览</a>
-    <a href="artist.html">艺术家</a>
-    <a href="artwork.html">艺术品</a>
-    <a href="#">订单</a>
+    <h1>登录</h1>
+    <form action="login.php" method="post">
+        用户名：<input type="text" name="usrname"> <br>
+        密&nbsp&nbsp&nbsp码：<input type="password" name="password"><br>
+        <input type="radio" name="role" id="customer" value="customer" checked>
+        <label for="customer">顾客</label>
+        <input type="radio" name="role" id="artist" value="artist">
+        <label for="artist">艺术家</label>
+        <input type="radio" name="role" id="gallery" value="gallery">
+        <label for="gallery">画廊管理员</label>
+        <input type="radio" name="role" id="manager" value="manager">
+        <label for="manager">系统管理员</label><br>
+        <button type="submit" value="login" >点击登录</button><br>
+        <a href="#">忘记密码</a>
+        <a href="signup.html">新用户</a>
+    </form>
 </body>
 </html>

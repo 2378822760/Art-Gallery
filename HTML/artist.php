@@ -28,10 +28,10 @@
             }
             $result = sqlsrv_query($con,$sql);
             if ($result){
-                echo "<table><tr><th>è‰ºæœ¯å®¶å·</th><th>å§“å</th><th>å‡ºç”Ÿåœ°</th><th>ä½œå“é£Žæ ¼</th><th>ç­¾çº¦ç”»å»Š</th><tr>";
+                echo "<table><tr><th>ÒÕÊõ¼ÒºÅ</th><th>ÐÕÃû</th><th>³öÉúµØ</th><th>×÷Æ··ç¸ñ</th><th>Ç©Ô¼»­ÀÈ</th><tr>";
                 while($row = sqlsrv_fetch_array($result)){
-                    echo "<tr><td>" .$row["è‰ºæœ¯å®¶å·"]. "</td><td>" .$row["å§“å"]. "</td><td>" .$row["å‡ºç”Ÿåœ°"]. "</td>
-                    <td>" .$row["ä½œå“é£Žæ ¼"]. "</td><td>" .$row["ç­¾çº¦ç”»å»Š"]. "</td></tr>";
+                    echo "<tr><td>" .$row["ÒÕÊõ¼ÒºÅ"]. "</td><td>" .$row["ÐÕÃû"]. "</td><td>" .$row["³öÉúµØ"]. "</td>
+                    <td>" .$row["×÷Æ··ç¸ñ"]. "</td><td>" .$row["Ç©Ô¼»­ÀÈ"]. "</td></tr>";
                 }
                 echo "</table>";
             }
