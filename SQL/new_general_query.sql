@@ -48,6 +48,25 @@ create proc guest.showExbArtist
 	where ARTISTID in (select distinct ARTISTID from EXB_ARTIST where EID = @eid);
 go
 
+-- 查询某个风格的所有艺术家√
+create proc guest.showStyleArtist
+	@style varchar(10)
+	as
+	set @style  = '%' + @style + '%';
+	select ARTISTID as 艺术家号,ARTISTNAME as 姓名,ARTISTBP as 出生地,ARTISTSTYLE as 作品风格,GNAME as 签约画廊 
+	from ARTIST left outer join GALLERY on ARTIST.GID = GALLERY.GID where ARTISTSTYLE like @style;
+go
+
+-- 通过ID或者姓名查找艺术家√
+create proc guest.showTypicalArtist
+	@id varchar(20),
+	@name varchar(30)
+	as
+	set @name = '%'+@name+'%';
+	select ARTISTID as 艺术家号,ARTISTNAME as 姓名,ARTISTBP as 出生地,ARTISTSTYLE as 作品风格,GNAME as 签约画廊 
+	from ARTIST left outer join GALLERY on ARTIST.GID = GALLERY.GID where ARTISTID = @id or ARTISTNAME like @name;
+go
+
 -- 查询所有作品√
 create proc guest.showAllArtwk
 	as
