@@ -43,19 +43,18 @@ create proc Customer.showSatisfy
 go
 
 -- 创建订单
-create proc Customer.createOrder
+ALTER proc [Customer].[createOrder]
 	@cid varchar(20),
 	@aid varchar(20),
 	@gid varchar(20)
 	as
 	declare @tid char(16), @price money, @cname varchar(30), @aname varchar(20);
 	declare @a decimal(8,0) = rand() * 100000000;
-	declare @b SMALLDATETIME = getdate();
+	declare @b DATETIME = getdate();
 	set @tid = DATENAME(YEAR,@b) + DATENAME(MONTH,@b) + DATENAME(DAY,@b) + CONVERT(char(8),@a)
 	select @price = ARTPRICE, @aname = ARTTITLE from ARTWORK where ARTID = @aid;
 	select @cname = CNAME from CUSTOMER where CID = @cid;
 	insert into TRADE(TRADEID,PRICE,CID,CNAME,ARTID,ARTNAME,TRADEDATE,TRADESTATUS,GID)
 	values(@tid,@price,@cid,@cname,@aid,@aname,@b,'建立',@gid);
-go
 
 -- 注销操作由系统管理员完成，用户不能自行随意注销
