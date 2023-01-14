@@ -43,7 +43,7 @@ create proc Customer.showSatisfy
 go
 
 -- 创建订单
-ALTER proc [Customer].[createOrder]
+create proc Customer.createOrder
 	@cid varchar(20),
 	@aid varchar(20),
 	@gid varchar(20)
@@ -54,6 +54,7 @@ ALTER proc [Customer].[createOrder]
 	set @tid = DATENAME(YEAR,@b) + DATENAME(MONTH,@b) + DATENAME(DAY,@b) + CONVERT(char(8),@a)
 	select @price = ARTPRICE, @aname = ARTTITLE from ARTWORK where ARTID = @aid;
 	select @cname = CNAME from CUSTOMER where CID = @cid;
+	update ARTWORK set ARTSTATUS = '已出售' where ARTID = @aid;
 	insert into TRADE(TRADEID,PRICE,CID,CNAME,ARTID,ARTNAME,TRADEDATE,TRADESTATUS,GID)
 	values(@tid,@price,@cid,@cname,@aid,@aname,@b,'建立',@gid);
 
