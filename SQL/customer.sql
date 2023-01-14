@@ -57,5 +57,6 @@ create proc Customer.createOrder
 	update ARTWORK set ARTSTATUS = '已出售' where ARTID = @aid;
 	insert into TRADE(TRADEID,PRICE,CID,CNAME,ARTID,ARTNAME,TRADEDATE,TRADESTATUS,GID)
 	values(@tid,@price,@cid,@cname,@aid,@aname,@b,'建立',@gid);
+	select @tid as tid;
 
 -- 注销操作由系统管理员完成，用户不能自行随意注销
