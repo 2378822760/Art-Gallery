@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/signup.css">
+    <script src="js/signup.js"></script>
+</head>
+<body>
+    <form action="php/signup.php" method="post" class="box">
+        <h2>加入我们</h2>
+        <div class="choose-box">
+            <input type="radio" name="role" class='select' id="scustomer" value="customer" checked>
+            <label for="scustomer">顾客</label>
+            <input type="radio" name="role" class='select' id="sartist" value="artist">
+            <label for="sartist">艺术家</label>
+            <input type="radio" name="role" class='select' id="sgallery" value="gallery">
+            <label for="sgallery">画廊管理员</label><br><br>
+        </div>
+        <div class="common">
+            <div class="input-box">
+                <label for="">用户名</label>
+                <input type="text" name="usrname" pattern="^[a-z0-9_-]{3,11}$" title="允许字母数字_-，长度3~11">
+            </div>
+            <div class="input-box">
+                <label for="">密码</label>
+                <input type="password" name="pwd1" pattern="^[A-Za-z0-9!@.]{6,20}$" title="允许6-20字节，允许大小写字母数字!@.组合">
+            </div>
+            <div class="input-box">
+                <label for="">确认密码</label>
+                <input type="password" name="pwd2" pattern="^[A-Za-z0-9!@.]{6,20}$" title="允许6-20字节，允许大小写字母数字!@.组合">
+            </div>
+            <div class="input-box" id="name">
+                <label for="">姓名</label>
+                <input type="text" name="name" pattern="^([\u4e00-\u9fa5]{2,15}|[a-zA-Z.\s]{1,30})$" title="允许2-15个汉字，1-30个大小写字母">
+            </div>
+            <div class="input-box" id="name">
+                <label for="">电子邮箱</label>
+                <input type="email" name="email">
+            </div>
+        </div>
+        <div class="respective">
+            <div class="respectiveField" id="customer">
+                <div class="input-bo2">
+                    <label for="">生日</label>
+                </div>
+                <div class="input-bo2">
+                    <select name="year">
+                        <option>1990</option>
+                        <option>1991</option>
+                        <option>1992</option>
+                        <option>1993</option>
+                        <option>1994</option>
+                        <option>1995</option>
+                        <option>1996</option>
+                    </select>
+                    <select name="month">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                    <select name="day">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label for="">地址</label>
+                    <input type="text" name="address" pattern="^.{1,20}$" title="允许汉字字母特殊符号组合，不允许为空且长度至多为20">
+                </div>
+                <div class="input-box">
+                    <label for="">手机号</label>
+                    <input type="text" name="phonenum" pattern="^1[34578]\d{9}$" title="11位数字组合，1（3/4/5/7/8）开头">
+                </div>
+            </div>
+            <div class="respectiveField" id="artist">
+                <div class="input-box">
+                    <label for="">出生地</label>
+                    <input type="text" name="bp" pattern="^.{1,20}$" title="允许汉字字母特殊符号组合，不允许为空且长度至多为20" formnovalidate="">
+                </div>
+                <div class="input-box">
+                    <label for="">作品风格</label>
+                    <input type="text" name="style" pattern="^[\u4e00-\u9fa5]{1,5}|$" title="1-5个汉字" formnovalidate="">
+                </div>
+            </div>
+            <div class="respectiveField" id="gallery">
+                <div class="input-box">
+                    <label for="">画廊名</label>
+                    <input type="text" name="gname" pattern="^[\u4e00-\u9fa5A-Za-z -]{1,15}$" title="允许汉字加大小写字母空格-，总共不超过15个" formnovalidate="">
+                </div>
+                <div class="input-box">
+                    <label for="">画廊地址</label>
+                    <input type="text" name="location" pattern="^.{1,20}$" title="允许汉字字母特殊符号组合，不允许为空且长度至多为20" formnovalidate="">
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-box">
+            <a href="index.html">返回</a>
+            <div>
+                <button type="submit" value="login" alert="确定登录？">注册</button>
+                <button type="reset">重置</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

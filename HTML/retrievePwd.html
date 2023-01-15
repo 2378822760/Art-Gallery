@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找回密码</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <form action="php/resetPwd.php" method="post" class="box">
+        <h2>找回密码</h2>
+        <div class="choose-box">
+            <input type="radio" name="role" id="customer" value="customer" checked>
+            <label for="customer">顾客</label>
+            <input type="radio" name="role" id="artist" value="artist">
+            <label for="artist">艺术家</label>
+            <input type="radio" name="role" id="gallery" value="gallery">
+            <label for="gallery">画廊管理员</label>
+        </div>
+        <div class="input-box">
+            <label for="">用户名</label>
+            <input type="text" name="usrname" required>
+        </div>
+        <div class="input-box">
+            <label for="">注册邮箱</label>
+            <input type="email" name="email" required>
+        </div>
+        <div class="btn-box">
+            <a href="index.html">返回</a>
+            <div>
+                <button type="submit" value="reset" onclick="alert('重置密码为asd123!')">重置密码</button>
+                <!-- <button>注册</button> -->
+            </div>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕登录发现更多🐳</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <form action="php/login.php" method="post" class="box">
+        <h2>💕欢迎来到艺术之地🐳</h2>
+        <div class="choose-box">
+            <input type="radio" name="role" id="customer" value="customer" checked>
+            <label for="customer">顾客</label>
+            <input type="radio" name="role" id="artist" value="artist">
+            <label for="artist">艺术家</label>
+            <input type="radio" name="role" id="gallery" value="gallery">
+            <label for="gallery">画廊管理员</label>
+            <input type="radio" name="role" id="manager" value="manager">
+            <label for="manager">系统管理员</label>
+        </div>
+        <div class="input-box">
+            <label for="">用户名</label>
+            <input type="text" name="usrname" required>
+        </div>
+        <div class="input-box">
+            <label for="">密码</label>
+            <input type="password" name="password" required>
+        </div>
+        <div class="btn-box">
+            <a href="retrievePwd.html">忘记密码</a>
+            <a href="signup.html">  新用户</a>
+            <div>
+                <button type="submit" value="login">登录</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
