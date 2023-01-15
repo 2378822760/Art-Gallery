@@ -46,17 +46,17 @@ go
 create proc Customer.createOrder
 	@cid varchar(20),
 	@aid varchar(20),
-	@gid varchar(20)
+	@gid varchar(20),
+	@tid char(16) OUTPUT
 	as
-	declare @tid char(16), @price money, @cname varchar(30), @aname varchar(20);
+	declare @price money, @cname varchar(30), @aname varchar(20);
 	declare @a decimal(8,0) = rand() * 100000000;
 	declare @b DATETIME = getdate();
-	set @tid = DATENAME(YEAR,@b) + DATENAME(MONTH,@b) + DATENAME(DAY,@b) + CONVERT(char(8),@a)
+	set @tid = DATENAME(YEAR,@b) + DATENAME(MONTH,@b) + DATENAME(DAY,@b) + CONVERT(char(8),@a);
 	select @price = ARTPRICE, @aname = ARTTITLE from ARTWORK where ARTID = @aid;
 	select @cname = CNAME from CUSTOMER where CID = @cid;
 	update ARTWORK set ARTSTATUS = '已出售' where ARTID = @aid;
 	insert into TRADE(TRADEID,PRICE,CID,CNAME,ARTID,ARTNAME,TRADEDATE,TRADESTATUS,GID)
 	values(@tid,@price,@cid,@cname,@aid,@aname,@b,'建立',@gid);
-	select @tid as tid;
-
+	
 -- 注销操作由系统管理员完成，用户不能自行随意注销
