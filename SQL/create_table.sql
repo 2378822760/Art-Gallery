@@ -121,3 +121,11 @@ CREATE TABLE [dbo].[loginInfo](
 ) ON [PRIMARY]
 GO
 
+--创建画廊和艺术家的签约队列
+create table ContrackQueue (
+	GID varchar(20),
+	AID varchar(20),
+	STATUS varchar(10) CHECK(STATUS IN('等待同意','已拒绝','已同意')),
+	PRIMARY KEY(GID,AID)
+);
+go
