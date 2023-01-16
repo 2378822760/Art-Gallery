@@ -122,11 +122,36 @@ CREATE TABLE [dbo].[loginInfo](
 GO
 
 --创建画廊和艺术家的签约队列
-create table ContrackQueue (
-	GID varchar(20),
-	AID varchar(20),
-	STATUS varchar(10) CHECK(STATUS IN('等待同意','已拒绝','已同意')),
-	MODE char(1) CHECK(MODE IN('1','2','3','4'))
-	PRIMARY KEY(GID,AID)
-);
-go
+USE [AG]
+GO
+
+/****** Object:  Table [dbo].[ContrackQueue]    Script Date: 2023/1/16 19:51:26 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ContrackQueue](
+	[GID] [varchar](20) NOT NULL,
+	[AID] [varchar](20) NOT NULL,
+	[STATUS] [varchar](10) NULL,
+	[MODE] [char](1) NOT NULL,
+	[TIME] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[GID] ASC,
+	[AID] ASC,
+	[MODE] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[ContrackQueue]  WITH CHECK ADD CHECK  (([STATUS]='已同意' OR [STATUS]='已拒绝' OR [STATUS]='等待同意'))
+GO
+
+ALTER TABLE [dbo].[ContrackQueue]  WITH CHECK ADD  CONSTRAINT [CK__ContrackQu__MODE__1F98B2C1] CHECK  (([MODE]='2' OR [MODE]='1' OR [MODE]='3' OR [MODE]='4'))
+GO
+
+ALTER TABLE [dbo].[ContrackQueue] CHECK CONSTRAINT [CK__ContrackQu__MODE__1F98B2C1]
+GO
