@@ -59,13 +59,11 @@ create proc Gallery.breakContrack
 	as
 	if exists(select * from EXB_ARTIST where ARTISTID = @artistid) begin
 		select @success = '2';
-		print '该艺术家当前有作品正在展览，不能解约，请待展览结束后进行解约!';
 	end
 	else begin
 		update ARTIST set GID = NULL where ARTISTID = @artistid;
 		update ARTWORK set GID = NULL 
 		where ARTID in (select ARTID from ARTWORK where ARTISTID = @artistid);
-		print '解约成功';
 		select @success = '1';
 	end
 go
