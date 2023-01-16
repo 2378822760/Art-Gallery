@@ -17,6 +17,19 @@ create proc Gallery.addArtwk
 	values(@id,@name,@cyear,@type,@price,@artistid,@gid);
 go
 
+-- 删除艺术品
+create proc Gallery.rmArtwk
+	@aid varchar(20)
+	as
+	declare @artistid varchar(20), @eid varchar(20), @n int;
+	select @eid = EID, @artistid = ARTISTID from ARTWORK where ARTID = @aid;
+	select @n = COUNT(*) from ARTWORK where EID = @eid and ARTISTID = @artistid;
+	if @n <= 1 begin
+		delete from EXB_ARTIST where ARTISTID = @artistid;
+	end
+	delete from ARTWORK where ARTID = @aid;
+go
+
 -- 修改艺术品信息√
 create proc Gallery.alterArtwkInfo
 	@name varchar(30),
