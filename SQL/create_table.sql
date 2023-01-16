@@ -137,7 +137,7 @@ CREATE TABLE [dbo].[ContrackQueue](
 	[AID] [varchar](20) NOT NULL,
 	[STATUS] [varchar](10) NULL,
 	[MODE] [char](1) NOT NULL,
-	[TIME] [date] NULL,
+	[TIME] [datetime] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[GID] ASC,
