@@ -126,6 +126,7 @@ create table ContrackQueue (
 	GID varchar(20),
 	AID varchar(20),
 	STATUS varchar(10) CHECK(STATUS IN('等待同意','已拒绝','已同意')),
+	MODE char(1) CHECK(MODE IN('1','2','3','4'))
 	PRIMARY KEY(GID,AID)
 );
 go
