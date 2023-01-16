@@ -69,9 +69,10 @@ create proc Gallery.holdExhibition
 	@gid varchar(20),
 	@startdate date,
 	@enddate date,
-	@name varchar(30)
+	@name varchar(30),
+	@eid varchar(20) OUTPUT
 	as
-	declare @eid varchar(20), @num decimal(3,0);
+	declare @num decimal(3,0);
 	select @eid = guest.procGetPY(@name);
 	select @num = 1000 * RAND()
 	select @eid += CONVERT(varchar(3),@num);
